@@ -23,7 +23,7 @@ build-backend = "setuptools.build_meta"
 name = "apache_superset"
 description = "A modern, enterprise-ready business intelligence web application"
 readme = "README.md"
-dynamic = ["version", "scripts", "entry-points"]
+dynamic = ["version"]
 requires-python = ">=3.10"
 license = { file="LICENSE.txt" }
 authors = [
@@ -240,7 +240,24 @@ development = [
 [project.urls]
 homepage = "https://superset.apache.org/"
 documentation = "https://superset.apache.org/docs/intro"
+download = "https://www.apache.org/dist/superset/"
 
+[project.scripts]
+superset = "superset.cli.main:superset"
+
+[project.entry-points."sqlalchemy.dialects"]
+"postgres.psycopg2" = "sqlalchemy.dialects.postgresql:dialect"
+postgres = "sqlalchemy.dialects.postgresql:dialect"
+superset = "superset.extensions.metadb:SupersetAPSWDialect"
+
+[project.entry-points."shillelagh.adapter"]
+superset = "superset.extensions.metadb:SupersetShillelaghAdapter"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
 
 [tool.isort]
 combine_as_imports = true
