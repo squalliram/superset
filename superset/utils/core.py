@@ -36,7 +36,7 @@ import traceback
 import uuid
 import warnings
 import zlib
-from collections.abc import Iterable, Iterator, Sequence
+from collections.abc import Hashable, Iterable, Iterator, Sequence
 from contextlib import closing, contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -127,6 +127,7 @@ TIME_COMPARISON = "__"
 JS_MAX_INTEGER = 9007199254740991  # Largest int Java Script can handle 2^53-1
 
 InputType = TypeVar("InputType")  # pylint: disable=invalid-name
+T = TypeVar("T")
 
 ADHOC_FILTERS_REGEX = re.compile("^adhoc_filters")
 
@@ -534,7 +535,7 @@ def markdown(raw: str, markup_wrap: bool | None = False) -> str:
     # nh3 preserves supported link attributes and enforces a safe rel value.
     safe = nh3.clean(safe, tags=safe_markdown_tags, attributes=safe_markdown_attrs)
     if markup_wrap:
-        safe = Markup(safe)
+        safe = Markup(safe)  # noqa: S704
     return safe
 
 
@@ -1623,9 +1624,6 @@ def split(
     yield string[i:]
 
 
-T = TypeVar("T")
-
-
 def as_list(x: T | list[T]) -> list[T]:
     """
     Wrap an object in a list if it's not a list.
@@ -1892,7 +1890,7 @@ def find_duplicates(items: Iterable[InputType]) -> list[InputType]:
 
 
 def remove_duplicates(
-    items: Iterable[InputType], key: Callable[[InputType], Any] | None = None
+    items: Iterable[InputType], key: Callable[[InputType], Hashable] | None = None
 ) -> list[InputType]:
     """Remove duplicate items in an iterable."""
     if not key:
@@ -2083,7 +2081,7 @@ def apply_max_row_limit(
     return max_limit
 
 
-def create_zip(files: dict[str, Any]) -> BytesIO:
+def create_zip(files: dict[str, bytes]) -> BytesIO:
     buf = BytesIO()
     with ZipFile(buf, "w") as bundle:
         for filename, contents in files.items():
