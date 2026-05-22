@@ -253,7 +253,6 @@ homepage = "https://superset.apache.org/"
 documentation = "https://superset.apache.org/docs/intro"
 download = "https://www.apache.org/dist/superset/"
 
-
 [tool.setuptools]
 include-package-data = true
 zip-safe = false
