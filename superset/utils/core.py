@@ -36,7 +36,7 @@ import traceback
 import uuid
 import warnings
 import zlib
-from collections.abc import Iterable, Iterator, Sequence
+from collections.abc import Hashable, Iterable, Iterator, Sequence
 from contextlib import closing, contextmanager
 from dataclasses import dataclass
 from datetime import timedelta
@@ -950,7 +950,7 @@ def recipients_string_to_list(address_string: str | None) -> list[str]:
     return [x.strip() for x in address_string_list if x.strip()]
 
 
-def choicify(values: Iterable[Any]) -> list[tuple[Any, Any]]:
+def choicify(values: Iterable[InputType]) -> list[tuple[InputType, InputType]]:
     """Takes an iterable and makes an iterable of tuples with it"""
     return [(v, v) for v in values]
 
@@ -1481,7 +1481,7 @@ def get_user_email() -> str | None:
 
 
 @contextmanager
-def override_user(user: User | None, force: bool = True) -> Iterator[Any]:
+def override_user(user: User | None, force: bool = True) -> Iterator[None]:
     """
     Temporarily override the current user per `flask.g` with the specified user.
 
@@ -1548,7 +1548,7 @@ def create_ssl_cert_file(certificate: str) -> str:
 
 def time_function(
     func: Callable[..., FlaskResponse], *args: Any, **kwargs: Any
-) -> tuple[float, Any]:
+) -> tuple[float, FlaskResponse]:
     """
     Measures the amount of time a function takes to execute in ms
 
@@ -1836,7 +1836,7 @@ def get_time_filter_status(
     datasource: Explorable,
     applied_time_extras: dict[str, str],
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
-    temporal_columns: set[Any] = {
+    temporal_columns: set[str] = {
         col.column_name for col in datasource.columns if col.is_dttm
     }
     applied: list[dict[str, str]] = []
@@ -1890,7 +1890,7 @@ def find_duplicates(items: Iterable[InputType]) -> list[InputType]:
 
 
 def remove_duplicates(
-    items: Iterable[InputType], key: Callable[[InputType], Any] | None = None
+    items: Iterable[InputType], key: Callable[[InputType], Hashable] | None = None
 ) -> list[InputType]:
     """Remove duplicate items in an iterable."""
     if not key:
