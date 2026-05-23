@@ -14,9 +14,3 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from . import (
-    core as core,
-    dynamic_plugins as dynamic_plugins,
-    sql_lab as sql_lab,
-    user_attributes as user_attributes,
-)
