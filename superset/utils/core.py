@@ -36,7 +36,7 @@ import traceback
 import uuid
 import warnings
 import zlib
-from collections.abc import Iterable, Iterator, Sequence
+from collections.abc import Hashable, Iterable, Iterator, Sequence
 from contextlib import closing, contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -1838,7 +1838,7 @@ def get_time_filter_status(
     datasource: Explorable,
     applied_time_extras: dict[str, str],
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
-    temporal_columns: set[Any] = {
+    temporal_columns: set[str] = {
         col.column_name for col in datasource.columns if col.is_dttm
     }
     applied: list[dict[str, str]] = []
@@ -1892,7 +1892,7 @@ def find_duplicates(items: Iterable[InputType]) -> list[InputType]:
 
 
 def remove_duplicates(
-    items: Iterable[InputType], key: Callable[[InputType], Any] | None = None
+    items: Iterable[InputType], key: Callable[[InputType], Hashable] | None = None
 ) -> list[InputType]:
     """Remove duplicate items in an iterable."""
     if not key:
