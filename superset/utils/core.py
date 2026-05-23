@@ -39,7 +39,7 @@ import zlib
 from collections.abc import Iterable, Iterator, Sequence
 from contextlib import closing, contextmanager
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime, timedelta
 from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -432,7 +432,7 @@ def cast_to_num(value: float | int | str | None) -> float | int | None:
         return None
 
 
-def cast_to_boolean(value: Any) -> bool | None:
+def cast_to_boolean(value: bool | int | float | str | datetime | None) -> bool | None:
     """Casts a value to an int/float
 
     >>> cast_to_boolean(1)
@@ -950,7 +950,7 @@ def recipients_string_to_list(address_string: str | None) -> list[str]:
     return [x.strip() for x in address_string_list if x.strip()]
 
 
-def choicify(values: Iterable[Any]) -> list[tuple[Any, Any]]:
+def choicify(values: Iterable[InputType]) -> list[tuple[InputType, InputType]]:
     """Takes an iterable and makes an iterable of tuples with it"""
     return [(v, v) for v in values]
 
@@ -1481,7 +1481,7 @@ def get_user_email() -> str | None:
 
 
 @contextmanager
-def override_user(user: User | None, force: bool = True) -> Iterator[Any]:
+def override_user(user: User | None, force: bool = True) -> Iterator[None]:
     """
     Temporarily override the current user per `flask.g` with the specified user.
 
@@ -1548,7 +1548,7 @@ def create_ssl_cert_file(certificate: str) -> str:
 
 def time_function(
     func: Callable[..., FlaskResponse], *args: Any, **kwargs: Any
-) -> tuple[float, Any]:
+) -> tuple[float, FlaskResponse]:
     """
     Measures the amount of time a function takes to execute in ms
 
