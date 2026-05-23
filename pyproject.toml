@@ -259,6 +259,7 @@ include-package-data = true
 zip-safe = false
 
 [tool.setuptools.packages.find]
+include = ["superset*"]
 
 [tool.isort]
 combine_as_imports = true
