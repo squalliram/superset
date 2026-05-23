@@ -461,6 +461,8 @@ def cast_to_boolean(value: bool | int | float | str | datetime | None) -> bool |
         return value != 0
     if isinstance(value, str):
         return value.strip().lower() == "true"
+    if isinstance(value, datetime):
+        return True
     return False
 
 
