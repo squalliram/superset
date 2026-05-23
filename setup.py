@@ -18,7 +18,7 @@ import json
 import os
 import subprocess
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 PACKAGE_JSON = os.path.join(BASE_DIR, "superset-frontend", "package.json")
@@ -52,23 +52,5 @@ with open(VERSION_INFO_FILE, "w") as version_file:
 version_string = version_string.replace("-dev", ".dev0")
 
 setup(
-    name="apache_superset",
     version=version_string,
-    packages=find_packages(),
-    include_package_data=True,
-    zip_safe=False,
-    entry_points={
-        "console_scripts": ["superset=superset.cli.main:superset"],
-        # the `postgres` and `postgres+psycopg2://` schemes were removed in SQLAlchemy 1.4  # noqa: E501
-        # add an alias here to prevent breaking existing databases
-        "sqlalchemy.dialects": [
-            "postgres.psycopg2 = sqlalchemy.dialects.postgresql:dialect",
-            "postgres = sqlalchemy.dialects.postgresql:dialect",
-            "superset = superset.extensions.metadb:SupersetAPSWDialect",
-        ],
-        "shillelagh.adapter": [
-            "superset=superset.extensions.metadb:SupersetShillelaghAdapter"
-        ],
-    },
-    download_url="https://www.apache.org/dist/superset/" + version_string,
 )
