@@ -253,6 +253,22 @@ homepage = "https://superset.apache.org/"
 documentation = "https://superset.apache.org/docs/intro"
 download = "https://www.apache.org/dist/superset/"
 
+[project.scripts]
+superset = "superset.cli.main:superset"
+
+[project.entry-points."sqlalchemy.dialects"]
+"postgres.psycopg2" = "sqlalchemy.dialects.postgresql:dialect"
+postgres = "sqlalchemy.dialects.postgresql:dialect"
+superset = "superset.extensions.metadb:SupersetAPSWDialect"
+
+[project.entry-points."shillelagh.adapter"]
+superset = "superset.extensions.metadb:SupersetShillelaghAdapter"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
 
 [tool.setuptools]
 include-package-data = true
