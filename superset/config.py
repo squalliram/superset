@@ -140,11 +140,10 @@ def _try_json_readsha(filepath: str, length: int) -> str | None:
 ALEMBIC_SKIP_LOG_CONFIG = False
 
 # Depending on the context in which this config is loaded, the
-# version_info.json file may or may not be available, as it is
-# generated on install via setup.py. In the event that we're
-# actually running Superset, we will have already installed,
-# therefore it WILL exist. When unit tests are running, however,
-# it WILL NOT exist, so we fall back on reading package.json
+# version_info.json file may or may not be available. In the event
+# that we're actually running Superset, we will have already
+# installed, therefore it WILL exist. When unit tests are running,
+# however, it WILL NOT exist, so we fall back on reading package.json
 VERSION_STRING = _try_json_readversion(VERSION_INFO_FILE) or _try_json_readversion(
     PACKAGE_JSON_FILE
 )
