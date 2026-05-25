@@ -254,6 +254,9 @@ documentation = "https://superset.apache.org/docs/intro"
 download = "https://www.apache.org/dist/superset/"
 
 
+[tool.setuptools.dynamic]
+version = {attr = "superset._version.__version__"}
+
 [tool.setuptools]
 include-package-data = true
 zip-safe = false
@@ -403,7 +406,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "superset/mcp_service/app.py" = ["S608", "E501"]  # LLM instruction text: SQL examples (S608) and long lines in multiline string (E501)
 "superset/mcp_service/*/tool/list_*.py" = ["E501"]  # LLM docstring examples show full request shapes which exceed line length
 "scripts/*" = ["TID251"]
-"setup.py" = ["TID251"]
+"superset/_version.py" = ["TID251"]  # build-time module resolved by setuptools before superset.utils.json is available
 "superset/config.py" = ["TID251"]
 "superset/cli/update.py" = ["TID251"]
 "superset/key_value/types.py" = ["TID251"]
